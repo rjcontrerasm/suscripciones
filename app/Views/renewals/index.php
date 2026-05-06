@@ -1,4 +1,4 @@
-<h2>Renovaciones</h2><a class="btn btn-outline-primary btn-sm mb-2" href="/renovaciones/exportar">Exportar CSV</a>
+<h2>Renovaciones</h2><a class="btn btn-outline-primary btn-sm mb-2" href="/renovaciones/exportar">Exportar CSV</a><?php if (!empty($serviceId)): ?><a class="btn btn-outline-secondary btn-sm mb-2 ms-2" href="/renovaciones">Quitar filtro</a><div class="alert alert-info py-2">Mostrando historial filtrado por servicio #<?= (int)$serviceId; ?>.</div><?php endif; ?>
 <div class="card p-3 mb-3"><form method="POST" action="/renovaciones/crear" class="row g-2">
 <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
 <div class="col-md-4"><select name="servicio_id" class="form-select"><?php foreach($services as $s): ?><option value="<?= $s['id']; ?>"><?= e($s['razon_social'].' - '.$s['nombre_servicio'].' ('.$s['fecha_vencimiento'].')'); ?></option><?php endforeach; ?></select></div>
