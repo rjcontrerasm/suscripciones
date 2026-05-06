@@ -39,6 +39,20 @@ $router->post('/logout', [AuthController::class, 'logout']);
 $router->get('/dashboard', [DashboardController::class, 'index']);
 $router->get('/clientes', [ClientController::class, 'index']);
 $router->post('/clientes/crear', [ClientController::class, 'create']);
+
+$router->post('/clientes/actualizar', [ClientController::class, 'update']);
+$router->post('/clientes/eliminar', [ClientController::class, 'delete']);
+$router->get('/clientes/exportar', [ClientController::class, 'export']);
+$router->post('/servicios/actualizar', [ServiceController::class, 'update']);
+$router->post('/servicios/eliminar', [ServiceController::class, 'delete']);
+$router->get('/servicios/exportar', [ServiceController::class, 'export']);
+$router->post('/pagos/actualizar', [PaymentController::class, 'update']);
+$router->post('/pagos/eliminar', [PaymentController::class, 'delete']);
+$router->get('/pagos/exportar', [PaymentController::class, 'export']);
+$router->post('/renovaciones/actualizar', [RenewalController::class, 'update']);
+$router->post('/renovaciones/eliminar', [RenewalController::class, 'delete']);
+$router->get('/renovaciones/exportar', [RenewalController::class, 'export']);
+
 $router->get('/servicios', [ServiceController::class, 'index']);
 $router->post('/servicios/crear', [ServiceController::class, 'create']);
 $router->get('/pagos', [PaymentController::class, 'index']);

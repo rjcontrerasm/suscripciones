@@ -1,4 +1,4 @@
-<h2>Servicios</h2>
+<h2>Servicios</h2><a class="btn btn-outline-primary btn-sm mb-2" href="/servicios/exportar">Exportar CSV</a>
 <form class="row g-2 mb-3" method="GET">
   <div class="col-md-4"><input class="form-control" name="q" value="<?= e($filters['q']); ?>" placeholder="Buscar cliente, RUC, servicio, proveedor"></div>
   <div class="col-md-3"><select name="estado" class="form-select"><option value="">Todos</option><?php foreach(['Activo','Próximo a vencer','Vencido','Suspendido','Cancelado'] as $e): ?><option <?= $filters['estado']===$e?'selected':''; ?>><?= $e; ?></option><?php endforeach; ?></select></div>
@@ -22,8 +22,8 @@
 <div class="col-md-2"><button class="btn btn-warning">Guardar</button></div>
 </form></div>
 <table class="table table-sm">
-<tr><th>Cliente</th><th>Servicio</th><th>Proveedor</th><th>Vence</th><th>Días</th><th>Estado</th></tr>
+<tr><th>Cliente</th><th>Servicio</th><th>Proveedor</th><th>Vence</th><th>Días</th><th>Estado</th><th>Acciones</th></tr>
 <?php foreach($services as $s): $cls=$s['dias_restantes']<0?'danger':($s['dias_restantes']<=15?'warning':'success'); ?>
-<tr class="table-<?= $cls; ?>"><td><?= e($s['razon_social']); ?></td><td><?= e($s['nombre_servicio']); ?></td><td><?= e($s['proveedor']); ?></td><td><?= e($s['fecha_vencimiento']); ?></td><td><?= e((string)$s['dias_restantes']); ?></td><td><?= e($s['estado']); ?></td></tr>
+<tr class="table-<?= $cls; ?>"><td><?= e($s['razon_social']); ?></td><td><?= e($s['nombre_servicio']); ?></td><td><?= e($s['proveedor']); ?></td><td><?= e($s['fecha_vencimiento']); ?></td><td><?= e((string)$s['dias_restantes']); ?></td><td><?= e($s['estado']); ?></td></td><td><form method="POST" action="/servicios/eliminar" onsubmit="return confirm('¿Eliminar servicio?')"><input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $s['id']; ?>"><button class="btn btn-sm btn-danger">Eliminar</button></form></td></tr>
 <?php endforeach; ?>
 </table>

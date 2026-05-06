@@ -1,4 +1,4 @@
-<h2>Pagos y facturación</h2>
+<h2>Pagos y facturación</h2><a class="btn btn-outline-primary btn-sm mb-2" href="/pagos/exportar">Exportar CSV</a>
 <div class="card p-3 mb-3">
 <form method="POST" enctype="multipart/form-data" action="/pagos/crear" class="row g-2">
 <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
@@ -14,7 +14,7 @@
 <div class="col-md-2"><button class="btn btn-warning">Registrar</button></div>
 </form>
 </div>
-<table class="table table-sm"><tr><th>Cliente</th><th>Servicio</th><th>Estado</th><th>Facturado</th><th>Pagado</th><th>Factura</th></tr>
+<table class="table table-sm"><tr><th>Cliente</th><th>Servicio</th><th>Estado</th><th>Facturado</th><th>Pagado</th><th>Factura</th><th>Acciones</th></tr>
 <?php foreach($payments as $p): ?>
-<tr><td><?= e($p['razon_social']); ?></td><td><?= e($p['nombre_servicio']); ?></td><td><?= e($p['estado_pago']); ?></td><td><?= e((string)$p['monto_facturado']); ?></td><td><?= e((string)$p['monto_pagado']); ?></td><td><?= e($p['numero_factura']); ?></td></tr>
+<tr><td><?= e($p['razon_social']); ?></td><td><?= e($p['nombre_servicio']); ?></td><td><?= e($p['estado_pago']); ?></td><td><?= e((string)$p['monto_facturado']); ?></td><td><?= e((string)$p['monto_pagado']); ?></td><td><?= e($p['numero_factura']); ?></td></td><td><form method="POST" action="/pagos/eliminar" onsubmit="return confirm('¿Eliminar pago?')"><input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $p['id']; ?>"><button class="btn btn-sm btn-danger">Eliminar</button></form></td></tr>
 <?php endforeach; ?></table>

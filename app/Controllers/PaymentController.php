@@ -1,57 +1,11 @@
 <?php
-
 namespace App\Controllers;
-
-use App\Core\Auth;
-use App\Core\Controller;
-use App\Core\Database;
-use App\Models\Payment;
-
-class PaymentController extends Controller
-{
-    public function index(): void
-    {
-        Auth::requireRole(['Administrador', 'Operador', 'Solo lectura']);
-        $services = Database::connection()->query(
-            'SELECT s.id, s.nombre_servicio, c.razon_social FROM servicios s
-             INNER JOIN clientes c ON c.id = s.cliente_id
-             WHERE s.deleted_at IS NULL ORDER BY s.id DESC LIMIT 100'
-        )->fetchAll();
-
-        $rows = Database::connection()->query(
-            'SELECT p.*, s.nombre_servicio, c.razon_social FROM pagos p
-             INNER JOIN servicios s ON s.id = p.servicio_id
-             INNER JOIN clientes c ON c.id = s.cliente_id
-             WHERE p.deleted_at IS NULL
-             ORDER BY p.created_at DESC LIMIT 200'
-        )->fetchAll();
-
-        $this->view('payments/index', ['services' => $services, 'payments' => $rows]);
-    }
-
-    public function create(): void
-    {
-        Auth::requireRole(['Administrador', 'Operador']);
-        verify_csrf();
-
-        $fileName = '';
-        if (!empty($_FILES['archivo_factura']['name'])) {
-            $fileName = time() . '_' . basename($_FILES['archivo_factura']['name']);
-            move_uploaded_file($_FILES['archivo_factura']['tmp_name'], __DIR__ . '/../../public/uploads/' . $fileName);
-        }
-
-        (new Payment())->create([
-            'servicio_id' => $_POST['servicio_id'],
-            'estado_pago' => $_POST['estado_pago'],
-            'fecha_pago' => $_POST['fecha_pago'] ?: null,
-            'monto_facturado' => $_POST['monto_facturado'],
-            'monto_pagado' => $_POST['monto_pagado'],
-            'numero_factura' => $_POST['numero_factura'],
-            'link_factura' => $_POST['link_factura'],
-            'archivo_factura' => $fileName,
-            'observaciones' => $_POST['observaciones'],
-        ]);
-
-        $this->redirect('/pagos');
-    }
+use App\Core\Auth; use App\Core\Controller; use App\Core\Database; use App\Models\Payment;
+class PaymentController extends Controller {
+public function index(): void { Auth::requireRole(['Administrador','Operador','Solo lectura']); $db=Database::connection(); $this->view('payments/index',['services'=>$db->query('SELECT s.id,s.nombre_servicio,c.razon_social FROM servicios s INNER JOIN clientes c ON c.id=s.cliente_id WHERE s.deleted_at IS NULL ORDER BY s.id DESC LIMIT 100')->fetchAll(),'payments'=>$db->query('SELECT p.*, s.nombre_servicio, c.razon_social FROM pagos p INNER JOIN servicios s ON s.id=p.servicio_id INNER JOIN clientes c ON c.id=s.cliente_id WHERE p.deleted_at IS NULL ORDER BY p.created_at DESC LIMIT 200')->fetchAll()]); }
+private function upload(): string { if(empty($_FILES['archivo_factura']['name'])) return $_POST['archivo_factura_actual']??''; $f=time().'_'.basename($_FILES['archivo_factura']['name']); move_uploaded_file($_FILES['archivo_factura']['tmp_name'], __DIR__.'/../../public/uploads/'.$f); return $f; }
+public function create(): void { Auth::requireRole(['Administrador','Operador']); verify_csrf(); $d=$_POST; $d['archivo_factura']=$this->upload(); $d['fecha_pago']=$d['fecha_pago']?:null; (new Payment())->create($d); $this->redirect('/pagos'); }
+public function update(): void { Auth::requireRole(['Administrador','Operador']); verify_csrf(); $d=$_POST; $d['archivo_factura']=$this->upload(); $d['fecha_pago']=$d['fecha_pago']?:null; (new Payment())->update((int)$_POST['id'],$d); $this->redirect('/pagos'); }
+public function delete(): void { Auth::requireRole(['Administrador']); verify_csrf(); (new Payment())->delete((int)$_POST['id']); $this->redirect('/pagos'); }
+public function export(): void { Auth::requireRole(['Administrador','Operador','Solo lectura']); $rows=Database::connection()->query('SELECT p.*, s.nombre_servicio, c.razon_social FROM pagos p INNER JOIN servicios s ON s.id=p.servicio_id INNER JOIN clientes c ON c.id=s.cliente_id WHERE p.deleted_at IS NULL ORDER BY p.created_at DESC')->fetchAll(); header('Content-Type:text/csv; charset=utf-8'); header('Content-Disposition: attachment; filename=pagos.csv'); $o=fopen('php://output','w'); if($rows){fputcsv($o,array_keys($rows[0])); foreach($rows as $r){fputcsv($o,$r);} } fclose($o); exit; }
 }
