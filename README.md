@@ -20,6 +20,21 @@ Sistema web para gestionar clientes, servicios recurrentes, vencimientos, pagos,
 4. (Opcional) Ajustar URL y SMTP en `config/app.php`.
 5. Apuntar el DocumentRoot a `public/`.
 
+
+## 2.1) Solución para error 404 / Not Found en cPanel
+
+Si ves el mensaje **"Not Found - The requested URL was not found on this server"**, normalmente ocurre por configuración de `DocumentRoot`.
+
+Opciones soportadas en este proyecto:
+
+1. **Recomendada:** apuntar el dominio/subdominio a `public/`.
+2. **Fallback en hosting compartido:** dejar el dominio en la raíz del proyecto y usar:
+   - `index.php` en raíz (redirige al front controller real)
+   - `.htaccess` en raíz (redirige a `public/`)
+   - `.htaccess` en `public/` (enrutamiento MVC)
+
+Si Apache no tiene `mod_rewrite` activo, el enrutamiento no funcionará y obtendrás 404.
+
 ## 3) Usuario administrador inicial
 
 - Email: `admin@arpynet.com`
