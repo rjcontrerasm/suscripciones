@@ -21,6 +21,19 @@
 <table class="table table-striped table-sm">
 <tr><th>RUC</th><th>Razón social</th><th>Tipo</th><th>Correo</th><th>Estado</th><th>Acciones</th></tr>
 <?php foreach ($clients as $c): ?>
-<tr><td><?= e($c['ruc']); ?></td><td><?= e($c['razon_social']); ?></td><td><?= e($c['tipo_cliente']); ?></td><td><?= e($c['correo']); ?></td><td><?= e($c['estado']); ?></td></td><td><form method="POST" action="/clientes/eliminar" onsubmit="return confirm('¿Eliminar cliente?')"><input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button class="btn btn-sm btn-danger">Eliminar</button></form></td></tr>
+<tr><td><?= e($c['ruc']); ?></td><td><?= e($c['razon_social']); ?></td><td><?= e($c['tipo_cliente']); ?></td><td><?= e($c['correo']); ?></td><td><?= e($c['estado']); ?></td><td>
+  <form method="POST" action="/clientes/eliminar" onsubmit="return confirm('¿Eliminar cliente?')" class="d-inline">
+    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button class="btn btn-sm btn-danger">Eliminar</button>
+  </form>
+</td></tr>
+<tr><td colspan="6"><form class="row g-2" method="POST" action="/clientes/actualizar">
+  <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>">
+  <div class="col-md-2"><input class="form-control form-control-sm" name="ruc" value="<?= e($c['ruc']); ?>"></div>
+  <div class="col-md-3"><input class="form-control form-control-sm" name="razon_social" value="<?= e($c['razon_social']); ?>"></div>
+  <div class="col-md-2"><input class="form-control form-control-sm" name="correo" value="<?= e($c['correo']); ?>"></div>
+  <div class="col-md-2"><input class="form-control form-control-sm" name="telefono" value="<?= e($c['telefono']); ?>"></div>
+  <input type="hidden" name="tipo_cliente" value="<?= e($c['tipo_cliente']); ?>"><input type="hidden" name="direccion" value="<?= e($c['direccion']); ?>"><input type="hidden" name="contacto" value="<?= e($c['contacto']); ?>"><input type="hidden" name="estado" value="<?= e($c['estado']); ?>">
+  <div class="col-md-2"><button class="btn btn-sm btn-outline-primary">Editar</button></div>
+</form></td></tr>
 <?php endforeach; ?>
 </table>
