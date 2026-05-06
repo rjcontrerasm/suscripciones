@@ -1,0 +1,29 @@
+<h2>Servicios</h2>
+<form class="row g-2 mb-3" method="GET">
+  <div class="col-md-4"><input class="form-control" name="q" value="<?= e($filters['q']); ?>" placeholder="Buscar cliente, RUC, servicio, proveedor"></div>
+  <div class="col-md-3"><select name="estado" class="form-select"><option value="">Todos</option><?php foreach(['Activo','Próximo a vencer','Vencido','Suspendido','Cancelado'] as $e): ?><option <?= $filters['estado']===$e?'selected':''; ?>><?= $e; ?></option><?php endforeach; ?></select></div>
+  <div class="col-md-2"><button class="btn btn-primary">Filtrar</button></div>
+</form>
+<div class="card p-3 mb-3"><h5>Nuevo servicio</h5>
+<form method="POST" action="/servicios/crear" class="row g-2">
+<input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
+<div class="col-md-3"><select class="form-select" name="cliente_id"><?php foreach($clientes as $c): ?><option value="<?= $c['id']; ?>"><?= e($c['razon_social']); ?></option><?php endforeach; ?></select></div>
+<div class="col-md-2"><select class="form-select" name="tipo_servicio_id"><?php foreach($tipos as $t): ?><option value="<?= $t['id']; ?>"><?= e($t['nombre']); ?></option><?php endforeach; ?></select></div>
+<div class="col-md-3"><input class="form-control" name="nombre_servicio" placeholder="Nombre servicio" required></div>
+<div class="col-md-2"><input class="form-control" name="proveedor" placeholder="Proveedor"></div>
+<div class="col-md-2"><input class="form-control" type="date" name="fecha_inicio" required></div>
+<div class="col-md-2"><input class="form-control" type="date" name="fecha_vencimiento" required></div>
+<div class="col-md-2"><select class="form-select" name="periodo"><?php foreach(['Mensual','Trimestral','Semestral','Anual','Personalizado'] as $p): ?><option><?= $p; ?></option><?php endforeach; ?></select></div>
+<div class="col-md-2"><input class="form-control" name="monto" type="number" step="0.01" required></div>
+<div class="col-md-1"><input class="form-control" name="moneda" value="USD"></div>
+<div class="col-md-2"><select class="form-select" name="estado"><?php foreach(['Activo','Próximo a vencer','Vencido','Suspendido','Cancelado'] as $e): ?><option><?= $e; ?></option><?php endforeach; ?></select></div>
+<div class="col-md-2"><input class="form-control" name="responsable" placeholder="Responsable"></div>
+<div class="col-md-4"><input class="form-control" name="notas" placeholder="Notas"></div>
+<div class="col-md-2"><button class="btn btn-warning">Guardar</button></div>
+</form></div>
+<table class="table table-sm">
+<tr><th>Cliente</th><th>Servicio</th><th>Proveedor</th><th>Vence</th><th>Días</th><th>Estado</th></tr>
+<?php foreach($services as $s): $cls=$s['dias_restantes']<0?'danger':($s['dias_restantes']<=15?'warning':'success'); ?>
+<tr class="table-<?= $cls; ?>"><td><?= e($s['razon_social']); ?></td><td><?= e($s['nombre_servicio']); ?></td><td><?= e($s['proveedor']); ?></td><td><?= e($s['fecha_vencimiento']); ?></td><td><?= e((string)$s['dias_restantes']); ?></td><td><?= e($s['estado']); ?></td></tr>
+<?php endforeach; ?>
+</table>

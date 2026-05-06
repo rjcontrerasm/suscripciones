@@ -1,0 +1,17 @@
+:root {
+  --arpynet-blue: #0d47a1;
+  --arpynet-orange: #ff8f00;
+}
+body { background: #f2f5f8; }
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: var(--arpynet-blue);
+}
+.sidebar .nav-link { color: #fff; }
+.sidebar .nav-link:hover { color: #ffd180; }
+.content { width: calc(100% - 250px); }
+.metric { padding: 1rem; border: none; }
+.btn-primary { background: var(--arpynet-blue); border-color: var(--arpynet-blue); }
+.btn-warning { background: var(--arpynet-orange); border-color: var(--arpynet-orange); color: #fff; }
+.login-wrapper { max-width: 420px; margin: 8% auto; }
