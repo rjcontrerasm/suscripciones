@@ -25,8 +25,8 @@
 <?php foreach ($clients as $c): ?>
 <tr><td><?= e($c['ruc']); ?></td><td><?= e($c['razon_social']); ?></td><td><?= e($c['tipo_cliente']); ?></td><td><?= e($c['correo']); ?></td><td><?= e($c['estado']); ?></td><td>
   <form method="POST" action="/clientes/eliminar" onsubmit="return confirm('¿Eliminar cliente?')" class="d-inline">
-    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button type="button" class="btn btn-sm btn-secondary" onclick="toggleEdit('view-cliente-<?= $c['id']; ?>')">👁</button> <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('edit-cliente-<?= $c['id']; ?>')">Editar</button>
-  <button class="btn btn-sm btn-danger">Eliminar</button>
+    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button type="button" class="btn btn-sm btn-outline-secondary" title="Ver detalle" onclick="toggleEdit('view-cliente-<?= $c['id']; ?>')">👁</button> <button type="button" class="btn btn-sm btn-primary" onclick="toggleEdit('edit-cliente-<?= $c['id']; ?>')">Editar</button>
+  <button class="btn btn-sm btn-outline-danger">Eliminar</button>
   </form>
 </td></tr>
 <tr id="view-cliente-<?= $c['id']; ?>" style="display:none;" class="table-light"><td colspan="6"><strong>Dirección:</strong> <?= e($c['direccion']); ?> | <strong>Teléfono:</strong> <?= e($c['telefono']); ?> | <strong>Contacto:</strong> <?= e($c['contacto']); ?></td></tr>
@@ -37,7 +37,7 @@
   <div class="col-md-2"><input class="form-control form-control-sm" name="correo" value="<?= e($c['correo']); ?>"></div>
   <div class="col-md-2"><input class="form-control form-control-sm" name="telefono" value="<?= e($c['telefono']); ?>"></div>
   <input type="hidden" name="tipo_cliente" value="<?= e($c['tipo_cliente']); ?>"><input type="hidden" name="direccion" value="<?= e($c['direccion']); ?>"><input type="hidden" name="contacto" value="<?= e($c['contacto']); ?>"><input type="hidden" name="estado" value="<?= e($c['estado']); ?>">
-  <div class="col-md-2"><button class="btn btn-sm btn-outline-primary">Editar</button></div>
+  <div class="col-md-2"><button class="btn btn-sm btn-primary">Editar</button></div>
 </form></td></tr>
 <?php endforeach; ?>
 </table>

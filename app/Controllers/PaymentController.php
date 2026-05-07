@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
+use PDOException;
 use App\Models\Payment;
 
 class PaymentController extends Controller
@@ -33,7 +34,12 @@ class PaymentController extends Controller
     {
         Auth::requireRole(['Administrador', 'Operador']);
         verify_csrf();
-        (new Payment())->create($this->payload());
+        try {
+            (new Payment())->create($this->payload());
+            $_SESSION['ok'] = 'Pago registrado correctamente.';
+        } catch (PDOException $e) {
+            $_SESSION['error'] = 'Error al registrar pago. Revisa campos obligatorios.';
+        }
         $this->redirect('/pagos');
     }
 

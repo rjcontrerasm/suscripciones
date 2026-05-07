@@ -25,3 +25,11 @@
     </nav>
   </aside>
   <main class="content p-4">
+    <?php if (!empty($_SESSION['error'])): ?><div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <?= e($_SESSION['error']); unset($_SESSION['error']); ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div><?php endif; ?>
+    <?php if (!empty($_SESSION['ok'])): ?><div class="alert alert-success alert-dismissible fade show" role="alert">
+      <?= e($_SESSION['ok']); unset($_SESSION['ok']); ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div><?php endif; ?>

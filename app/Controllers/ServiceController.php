@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
+use PDOException;
 use App\Models\Service;
 
 class ServiceController extends Controller
@@ -26,7 +27,12 @@ class ServiceController extends Controller
     {
         Auth::requireRole(['Administrador', 'Operador']);
         verify_csrf();
-        (new Service())->create($this->payload());
+        try {
+            (new Service())->create($this->payload());
+            $_SESSION['ok'] = 'Servicio creado correctamente.';
+        } catch (PDOException $e) {
+            $_SESSION['error'] = 'Error al crear servicio. Verifica datos y estructura de base de datos.';
+        }
         $this->redirect('/servicios');
     }
 

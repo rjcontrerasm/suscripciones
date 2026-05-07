@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
+use PDOException;
 use App\Models\Renewal;
 
 class RenewalController extends Controller
@@ -27,7 +28,12 @@ class RenewalController extends Controller
     {
         Auth::requireRole(['Administrador', 'Operador']);
         verify_csrf();
-        (new Renewal())->renew(['servicio_id' => (int)$_POST['servicio_id'], 'fecha_nueva' => $_POST['fecha_nueva'], 'pago_id' => $_POST['pago_id'], 'notas' => $_POST['notas']]);
+        try {
+            (new Renewal())->renew(['servicio_id' => (int)$_POST['servicio_id'], 'fecha_nueva' => $_POST['fecha_nueva'], 'pago_id' => $_POST['pago_id'], 'notas' => $_POST['notas']]);
+            $_SESSION['ok'] = 'Renovación registrada.';
+        } catch (PDOException $e) {
+            $_SESSION['error'] = 'Error al registrar renovación.';
+        }
         $this->redirect('/renovaciones');
     }
 
