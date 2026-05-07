@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Controllers\AuthController;
 use App\Controllers\ClientController;
 use App\Controllers\DashboardController;
+use App\Controllers\DomainController;
 use App\Controllers\PaymentController;
 use App\Controllers\RenewalController;
 use App\Controllers\ReportController;
@@ -59,6 +60,10 @@ $router->get('/pagos', [PaymentController::class, 'index']);
 $router->post('/pagos/crear', [PaymentController::class, 'create']);
 $router->get('/renovaciones', [RenewalController::class, 'index']);
 $router->post('/renovaciones/crear', [RenewalController::class, 'create']);
+$router->get('/dominios', [DomainController::class, 'index']);
+$router->post('/dominios/crear', [DomainController::class, 'create']);
+$router->post('/dominios/eliminar', [DomainController::class, 'delete']);
+$router->get('/dominios/exportar', [DomainController::class, 'export']);
 $router->get('/reportes', [ReportController::class, 'index']);
 $router->get('/reportes/csv', [ReportController::class, 'exportCsv']);
 

@@ -15,6 +15,7 @@
       <a class="nav-link" href="/dashboard">Dashboard</a>
       <a class="nav-link" href="/clientes">Clientes</a>
       <a class="nav-link" href="/servicios">Servicios</a>
+      <a class="nav-link" href="/dominios">Dominios</a>
       <a class="nav-link" href="/pagos">Pagos</a>
       <a class="nav-link" href="/renovaciones">Renovaciones</a>
       <a class="nav-link" href="/reportes">Reportes</a>

@@ -25,3 +25,6 @@ VALUES ('Persona Jurídica', '20123456789', 'Cliente Demo SAC', 'Lima, Perú', '
 
 INSERT INTO servicios (cliente_id, tipo_servicio_id, codigo_servicio, orden_servicio, nombre_servicio, proveedor, fecha_inicio, fecha_vencimiento, periodo, monto, moneda, estado, responsable, notas, created_at, updated_at)
 VALUES (1, 1, 'SRV-DEMO-0001', 1, 'demo.com', 'Namecheap', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 20 DAY), 'Anual', 18.00, 'USD', 'Activo', 'Equipo TI', 'Dominio principal', NOW(), NOW());
+
+INSERT INTO dominios (dominio, cliente_id, servicio_id, proveedor, fecha_inicio, fecha_vencimiento, monto, moneda, estado, notas, created_at, updated_at)
+VALUES ('demo.com', 1, 1, 'Namecheap', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 18.00, 'USD', 'Activo', 'Dominio anual demo', NOW(), NOW());

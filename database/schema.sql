@@ -158,3 +158,24 @@ CREATE TABLE logs_actividad (
   INDEX idx_logs_entidad (entidad, entidad_id),
   CONSTRAINT fk_logs_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+
+CREATE TABLE dominios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  dominio VARCHAR(180) NOT NULL UNIQUE,
+  cliente_id INT NOT NULL,
+  servicio_id INT NULL,
+  proveedor VARCHAR(120) NULL,
+  fecha_inicio DATE NOT NULL,
+  fecha_vencimiento DATE NOT NULL,
+  monto DECIMAL(12,2) NULL,
+  moneda VARCHAR(10) NOT NULL DEFAULT 'USD',
+  estado ENUM('Activo','Próximo a vencer','Vencido') NOT NULL DEFAULT 'Activo',
+  notas TEXT NULL,
+  created_at TIMESTAMP NULL,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL,
+  CONSTRAINT fk_dominios_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+  CONSTRAINT fk_dominios_servicio FOREIGN KEY (servicio_id) REFERENCES servicios(id),
+  INDEX idx_dominios_venc (fecha_vencimiento)
+);
