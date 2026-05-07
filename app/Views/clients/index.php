@@ -23,10 +23,11 @@
 <?php foreach ($clients as $c): ?>
 <tr><td><?= e($c['ruc']); ?></td><td><?= e($c['razon_social']); ?></td><td><?= e($c['tipo_cliente']); ?></td><td><?= e($c['correo']); ?></td><td><?= e($c['estado']); ?></td><td>
   <form method="POST" action="/clientes/eliminar" onsubmit="return confirm('¿Eliminar cliente?')" class="d-inline">
-    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button class="btn btn-sm btn-danger">Eliminar</button>
+    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('edit-cliente-<?= $c['id']; ?>')">Editar</button>
+  <button class="btn btn-sm btn-danger">Eliminar</button>
   </form>
 </td></tr>
-<tr><td colspan="6"><form class="row g-2" method="POST" action="/clientes/actualizar">
+<tr id="edit-cliente-<?= $c['id']; ?>" style="display:none;"><td colspan="6"><form class="row g-2" method="POST" action="/clientes/actualizar">
   <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>">
   <div class="col-md-2"><input class="form-control form-control-sm" name="ruc" value="<?= e($c['ruc']); ?>"></div>
   <div class="col-md-3"><input class="form-control form-control-sm" name="razon_social" value="<?= e($c['razon_social']); ?>"></div>
@@ -37,3 +38,5 @@
 </form></td></tr>
 <?php endforeach; ?>
 </table>
+
+<script>function toggleEdit(id){const el=document.getElementById(id); if(!el) return; el.style.display=(el.style.display==='none'||el.style.display==='')?'table-row':'none';}</script>
