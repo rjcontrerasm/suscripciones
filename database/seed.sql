@@ -23,5 +23,5 @@ VALUES
 INSERT INTO clientes (tipo_cliente, ruc, razon_social, direccion, telefono, correo, contacto, estado, fecha_registro, created_at, updated_at)
 VALUES ('Persona Jurídica', '20123456789', 'Cliente Demo SAC', 'Lima, Perú', '999999999', 'contacto@demo.pe', 'Ana Torres', 'activo', CURDATE(), NOW(), NOW());
 
-INSERT INTO servicios (cliente_id, tipo_servicio_id, nombre_servicio, proveedor, fecha_inicio, fecha_vencimiento, periodo, monto, moneda, estado, responsable, notas, created_at, updated_at)
-VALUES (1, 1, 'demo.com', 'Namecheap', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 20 DAY), 'Anual', 18.00, 'USD', 'Activo', 'Equipo TI', 'Dominio principal', NOW(), NOW());
+INSERT INTO servicios (cliente_id, tipo_servicio_id, codigo_servicio, orden_servicio, nombre_servicio, proveedor, fecha_inicio, fecha_vencimiento, periodo, monto, moneda, estado, responsable, notas, created_at, updated_at)
+VALUES (1, 1, 'SRV-DEMO-0001', 1, 'demo.com', 'Namecheap', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 20 DAY), 'Anual', 18.00, 'USD', 'Activo', 'Equipo TI', 'Dominio principal', NOW(), NOW());

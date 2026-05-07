@@ -1,4 +1,6 @@
 <h2>Clientes</h2><a class="btn btn-outline-primary btn-sm mb-2" href="/clientes/exportar">Exportar CSV</a>
+<?php if (!empty($_SESSION['error'])): ?><div class="alert alert-danger"><?= e($_SESSION['error']); unset($_SESSION['error']); ?></div><?php endif; ?>
+<?php if (!empty($_SESSION['ok'])): ?><div class="alert alert-success"><?= e($_SESSION['ok']); unset($_SESSION['ok']); ?></div><?php endif; ?>
 <form class="row g-2 mb-3" method="GET">
   <div class="col-md-4"><input class="form-control" name="q" value="<?= e($search); ?>" placeholder="Buscar por RUC, razón social o correo"></div>
   <div class="col-md-2"><button class="btn btn-primary">Buscar</button></div>
@@ -23,10 +25,11 @@
 <?php foreach ($clients as $c): ?>
 <tr><td><?= e($c['ruc']); ?></td><td><?= e($c['razon_social']); ?></td><td><?= e($c['tipo_cliente']); ?></td><td><?= e($c['correo']); ?></td><td><?= e($c['estado']); ?></td><td>
   <form method="POST" action="/clientes/eliminar" onsubmit="return confirm('¿Eliminar cliente?')" class="d-inline">
-    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('edit-cliente-<?= $c['id']; ?>')">Editar</button>
+    <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>"><button type="button" class="btn btn-sm btn-secondary" onclick="toggleEdit('view-cliente-<?= $c['id']; ?>')">👁</button> <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('edit-cliente-<?= $c['id']; ?>')">Editar</button>
   <button class="btn btn-sm btn-danger">Eliminar</button>
   </form>
 </td></tr>
+<tr id="view-cliente-<?= $c['id']; ?>" style="display:none;" class="table-light"><td colspan="6"><strong>Dirección:</strong> <?= e($c['direccion']); ?> | <strong>Teléfono:</strong> <?= e($c['telefono']); ?> | <strong>Contacto:</strong> <?= e($c['contacto']); ?></td></tr>
 <tr id="edit-cliente-<?= $c['id']; ?>" style="display:none;"><td colspan="6"><form class="row g-2" method="POST" action="/clientes/actualizar">
   <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>"><input type="hidden" name="id" value="<?= $c['id']; ?>">
   <div class="col-md-2"><input class="form-control form-control-sm" name="ruc" value="<?= e($c['ruc']); ?>"></div>

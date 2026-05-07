@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Models\Client;
+use PDOException;
 
 class ClientController extends Controller
 {
@@ -21,7 +22,17 @@ class ClientController extends Controller
         Auth::requireRole(['Administrador', 'Operador']);
         verify_csrf();
 
-        (new Client())->create($this->payload());
+        try {
+            (new Client())->create($this->payload());
+            $_SESSION['ok'] = 'Cliente creado correctamente.';
+        } catch (PDOException $e) {
+            if ((int)$e->getCode() === 23000) {
+                $_SESSION['error'] = 'Ya existe un cliente registrado con ese RUC.';
+            } else {
+                $_SESSION['error'] = 'No se pudo crear el cliente. Intenta nuevamente.';
+            }
+        }
+
         $this->redirect('/clientes');
     }
 
@@ -31,6 +42,7 @@ class ClientController extends Controller
         verify_csrf();
 
         (new Client())->update((int)$_POST['id'], $this->payload());
+        $_SESSION['ok'] = 'Cliente actualizado.';
         $this->redirect('/clientes');
     }
 
@@ -40,6 +52,7 @@ class ClientController extends Controller
         verify_csrf();
 
         (new Client())->delete((int)$_POST['id']);
+        $_SESSION['ok'] = 'Cliente eliminado.';
         $this->redirect('/clientes');
     }
 

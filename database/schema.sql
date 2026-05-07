@@ -59,6 +59,8 @@ CREATE TABLE servicios (
   id INT AUTO_INCREMENT PRIMARY KEY,
   cliente_id INT NOT NULL,
   tipo_servicio_id INT NOT NULL,
+  codigo_servicio VARCHAR(40) NOT NULL UNIQUE,
+  orden_servicio INT NOT NULL,
   nombre_servicio VARCHAR(180) NOT NULL,
   proveedor VARCHAR(120) NULL,
   fecha_inicio DATE NOT NULL,
@@ -75,7 +77,9 @@ CREATE TABLE servicios (
   CONSTRAINT fk_servicios_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id),
   CONSTRAINT fk_servicios_tipo FOREIGN KEY (tipo_servicio_id) REFERENCES tipos_servicio(id),
   INDEX idx_servicios_vencimiento (fecha_vencimiento),
-  INDEX idx_servicios_estado (estado)
+  INDEX idx_servicios_estado (estado),
+  INDEX idx_servicios_codigo (codigo_servicio),
+  INDEX idx_servicios_orden (orden_servicio)
 );
 
 CREATE TABLE pagos (
